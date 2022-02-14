@@ -1,5 +1,6 @@
 package com.config.client.configclient;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class ConfigClientApplication {
 
-	@Value("${env.name}")
+	@Autowired
+	SampleConfig config;
+
+	@RequestMapping(value = "/config")
+	public SampleConfig sampleConfig() {
+		return config;
+	}
+
+	@Value("${app.name}")
+	String appName;
+
+	@Value("${dev.name}")
 	String welcomeText;
 
 	@Value("${env.name}")
@@ -29,5 +41,10 @@ public class ConfigClientApplication {
 	@RequestMapping(value = "/dev")
 	public String welcomedev() {
 		return welcomeDev;
+	}
+
+	@RequestMapping(value = "/app")
+	public String appName() {
+		return appName;
 	}
 }
